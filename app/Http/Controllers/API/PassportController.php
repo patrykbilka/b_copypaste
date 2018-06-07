@@ -10,6 +10,7 @@ use Validator;
 use Laravel\Passport\Client;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Response;
+use App\Http\Requests\RegisterRequest;
 
 class PassportController extends Controller
 {
@@ -34,19 +35,8 @@ class PassportController extends Controller
         return \Route::dispatch($proxy);
     }
 
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
-        $valid = validator($request->only('email', 'name', 'password'), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6',
-        ]);
-
-        if ($valid->fails()) {
-            $jsonError=response()->json($valid->errors()->all(), 400);
-            return Response::json($jsonError);
-        }
-
         $data = request()->only('email','name','password');
 
         $user = User::create([
