@@ -10,7 +10,7 @@ class ItemsController extends Controller
 {
     public function store(Request $request) {
         $user = Auth::user();
-        // print_r($request);
+        
         $item = Item::create([
             'content' => $request['link'],
             'user_id' => $user->id
